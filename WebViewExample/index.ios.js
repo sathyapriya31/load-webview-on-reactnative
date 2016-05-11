@@ -1,52 +1,91 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
+'use strict';
 
-import React, {
-  AppRegistry,
-  Component,
+var React = require('react-native');
+var {
   StyleSheet,
+  View,
+  WebView,
   Text,
-  View
-} from 'react-native';
+  Image,
+  AppRegistry
+} = React;
+var Dimensions = require('Dimensions');
+var windowSize = Dimensions.get('window');
 
-class WebViewExample extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+var TEXT_INPUT_REF = 'urlInput';
+var WEBVIEW_REF = 'webview';
+var DEFAULT_URL = 'http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/pdf_open_parameters.pdf';
+
+var WebViewExample = React.createClass({
+
+getInitialState: function() {
+    return {
+      url: DEFAULT_URL,
+      status: 'No Page Loaded',
+      loading: true,
+      scalesPageToFit: true,
+    };
+  },
+  render: function() { 
+  console.log(this.state.url);
+  var self=this;
+  return (
+    <View style={[styles.container]}>    
+      <Image style={styles.bg} source={require('./Image/beerback.jpg')} />
+      <View style={styles.topBar}>
+        <View style={styles.topBarView}>
+          <View style={{flex:0.1, paddingLeft: 5}}>             
+            <Image style={{width: 40}} size={30} source={require('./Image/menu-icon.png')}></Image>
+          </View>
+          <View style={{flex:0.2}}>
+            <Text style={styles.topBarText}>WebView</Text>
+          </View>
+        </View>
       </View>
+      <View style={{flex:1}}>
+        <WebView
+        ref={WEBVIEW_REF}
+        automaticallyAdjustContentInsets={false}
+        source={{uri: this.state.url}}
+        javaScriptEnabled={true}
+        domStorageEnabled={true}
+        decelerationRate="normal"
+        startInLoadingState={true}
+        scalesPageToFit={this.state.scalesPageToFit}
+        />
+      </View>
+    </View>
     );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
+},
+});
+var styles = StyleSheet.create({
+   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  bg: {
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: windowSize.width,
+        height: windowSize.height
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  topBar: {
+      padding:5,
+      backgroundColor: '#237cc5'
+  },
+  topBarView: {
+      flex:1, 
+      flexDirection: "row", 
+      justifyContent: "center", 
+      alignItems: "center"
+  },
+    topBarText: {
+      color: "white", 
+      fontSize: 18, 
+      fontWeight: "bold",
+      alignItems:'center'
   },
 });
+
 
 AppRegistry.registerComponent('WebViewExample', () => WebViewExample);

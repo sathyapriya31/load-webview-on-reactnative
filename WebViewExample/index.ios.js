@@ -14,7 +14,7 @@ var windowSize = Dimensions.get('window');
 
 var TEXT_INPUT_REF = 'urlInput';
 var WEBVIEW_REF = 'webview';
-var DEFAULT_URL = 'http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/pdf_open_parameters.pdf';
+var DEFAULT_URL = 'https://www.google.co.in/maps/search/pubs/';
 
 var WebViewExample = React.createClass({
 
